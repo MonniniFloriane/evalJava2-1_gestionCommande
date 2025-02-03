@@ -1,5 +1,5 @@
 public interface IFPaiement {
-    public static Paiement getMoyenPaiement(ETypePaiement type) {
+    static Paiement getMoyenPaiement(ETypePaiement type) {
         return null;
     }
 }

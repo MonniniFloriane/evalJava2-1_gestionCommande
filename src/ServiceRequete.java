@@ -1,5 +1,5 @@
 public class ServiceRequete {
-    private ETypeVerification type;
+    private final ETypeVerification type;
     private String requete    = "";
     private String conclution = "";
 

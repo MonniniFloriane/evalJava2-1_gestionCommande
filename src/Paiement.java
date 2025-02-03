@@ -1,13 +1,4 @@
-public class Paiement implements IMoyenPaiement {
-    private ETypePaiement type;
-
-    public Paiement(ETypePaiement type) {
-        this.type = type;
-    }
-
-    public ETypePaiement getType() {
-        return this.type;
-    }
+public record Paiement(ETypePaiement type) implements IMoyenPaiement {
 
     @Override
     public double payer(double montant) {
@@ -32,8 +23,6 @@ public class Paiement implements IMoyenPaiement {
 
     @Override
     public String toString() {
-        return "Paiement{" +
-                "type=" + this.getPaiementString() +
-                '}';
+        return "Type de paiement : " + this.getPaiementString();
     }
 }

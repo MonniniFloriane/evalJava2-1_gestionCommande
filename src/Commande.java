@@ -3,18 +3,19 @@ import java.util.List;
 
 public class Commande implements ISujet {
     private int id;
-    private String produits;
-    private int prixTotal;
+    private final String produits;
+    private final int prixTotal;
     private String status;
-    //factory
-    private List<IObserver> observers;
+    private final List<IObserver> observers;
+    private final ETypePaiement type;
 
-    private Commande(CommandeBuilder builder) {
-        this.id = builder.id;
-        this.produits = builder.produits;
+    Commande(CommandeBuilder builder) {
+        this.id        = builder.id;
+        this.produits  = builder.produits;
         this.prixTotal = builder.prixTotal;
-        this.status = builder.status;
+        this.status    = builder.status;
         this.observers = builder.observers;
+        this.type      = builder.type;
     }
 
     public int getId() {
@@ -56,29 +57,34 @@ public class Commande implements ISujet {
         notifyObservers();
     }
 
+    public void journal(String transaction){
+        STransactionLogger.getInstance().afficherJournal(transaction);
+        System.out.println("Journal des transaction : " + toString());
+    }
+
     @Override
     public String toString() {
-        return "Commande{" +
-                "id=" + id +
-                ", produits='" + produits + '\'' +
-                ", prixTotal=" + prixTotal +
-                ", status=" + status +
-                '}';
+        return "Commande" + "\n" +
+                "id               : " + id + "\n" +
+                "produits         : " + produits + '\n' +
+                "prixTotal        : " + prixTotal + "\n" +
+                "status           : " + status + "\n" +
+                "type de paiement : " + type;
     }
 
     // ConcreteBuilder
     public static class CommandeBuilder implements ICommandeBuilder {
-        private int id                    = 0;
-        private String produits           = "";
-        private int prixTotal             = 0;
-        private String status             = "";
-        //factory
+        private int id           = 0;
+        private String produits  = "";
+        private int prixTotal    = 0;
+        private String status    = "";
         private List<IObserver> observers = new ArrayList<>();
+        private ETypePaiement type;
 
         public CommandeBuilder(int id, String produits) {
-            this.id = id;
-            this.produits = produits;
-            observers = new ArrayList<>();
+            this.id        = id;
+            this.produits  = produits;
+            this.observers = new ArrayList<>();
         }
 
         public CommandeBuilder prixTotal(int valeur) {
@@ -88,6 +94,11 @@ public class Commande implements ISujet {
 
         public CommandeBuilder status(String status) {
             this.status = status;
+            return this;
+        }
+
+        public CommandeBuilder type(ETypePaiement type) {
+            this.type = type;
             return this;
         }
 

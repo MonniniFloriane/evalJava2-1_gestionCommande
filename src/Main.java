@@ -1,25 +1,33 @@
 public class Main {
     public static void main(String[] args) {
         //builder
-        System.out.println("Design Pattern : Builder");
-        Commande commande1 = new Commande.CommandeBuilder(1669, "Lait").prixTotal(13).status("Valide").build();
-        System.out.println(commande1.toString() + "\n");
+        System.out.println("Design Pattern Builder");
+        Commande commande1 = new Commande.CommandeBuilder(1, "Lait").prixTotal(13).status("Expédier").type(ETypePaiement.PAYPAL).build();
+        Commande commande2 = new Commande.CommandeBuilder(2, "Beurre").prixTotal(10).status("En cours").type(ETypePaiement.CARTEBANCAIRE).build();
 
         //factory
-        System.out.println("Design Pattern : Factory");
+        System.out.println("Design Pattern Factory");
+        Paiement carte = FPaiement.getMoyenPaiement(ETypePaiement.CARTEBANCAIRE);
+        assert carte != null;
+        System.out.println(carte);
+
         Paiement paypal = FPaiement.getMoyenPaiement(ETypePaiement.PAYPAL);
         assert paypal != null;
-        System.out.println(paypal.toString() + "\n");
+        System.out.println(paypal);
+
+        Paiement crypto = FPaiement.getMoyenPaiement(ETypePaiement.CRYPTOMONNAIE);
+        assert crypto != null;
+        System.out.println(crypto + "\n");
 
         //observer
-        System.out.println("Design Pattern : Observer");
+        System.out.println("Design Pattern Observer");
         Client client = new Client();
         commande1.add(client);
-        commande1.setStatus("En cours");
-        System.out.println("\n");
+        commande1.setStatus("En cours" + "\n");
+        commande2.add(client);
 
         //chain of responsability
-        System.out.println("Design Pattern : Chain of responsibility");
+        System.out.println("Design Pattern Chain of responsibility");
         ISupportService stock = new StockSupport();
         ISupportService paiement = new PaiementSupport();
         ISupportService commande = new CommandeSupport();
@@ -33,11 +41,17 @@ public class Main {
         ServiceRequete requeteB = new ServiceRequete(ETypeVerification.PAIEMENT, "Le paiement est valider! Vous recevrais un mails dès que la commande sera envoyer");
         paiement.handleVerification(requeteB);
 
-        ServiceRequete requeteC = new ServiceRequete(ETypeVerification.COMMANDE, "Erreur ! votre commande est annuler");
+        ServiceRequete requeteC = new ServiceRequete(ETypeVerification.COMMANDE, "La commande est envoyer !");
         commande.handleVerification(requeteC);
 
         System.out.println(requeteA.getConclution());
         System.out.println(requeteB.getConclution());
         System.out.println(requeteC.getConclution() + "\n");
+
+        //Singleton
+        System.out.println("Design Pattern Singleton");
+        TransactionLogger transactionLogger = STransactionLogger.getInstance();
+//        transactionLogger.afficherJournal(commande1);
+        System.out.println("Journal des transactions: " + STransactionLogger.getInstance().getTransaction());
     }
 }
