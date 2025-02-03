@@ -1,5 +1,6 @@
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello, World!");
+        Commande commande = new Commande.CommandeBuilder(1669, "Lait").prixTotal(13).status("Valide").build();
+        System.out.println(commande.toString());
     }
 }
