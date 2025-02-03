@@ -8,5 +8,10 @@ public class Main {
         Paiement paypal = FPaiement.getMoyenPaiement(ETypePaiement.PAYPAL);
         assert paypal != null;
         System.out.println(paypal.toString());
+
+        //observer
+        Client client = new Client();
+        commande.add(client);
+        commande.setStatus("En cours");
     }
 }
