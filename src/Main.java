@@ -4,6 +4,7 @@ public class Main {
         System.out.println("Design Pattern Builder");
         Commande commande1 = new Commande.CommandeBuilder(1, "Lait").prixTotal(13).status("Expédier").type(ETypePaiement.PAYPAL).build();
         Commande commande2 = new Commande.CommandeBuilder(2, "Beurre").prixTotal(10).status("En cours").type(ETypePaiement.CARTEBANCAIRE).build();
+        System.out.println(commande1.toString() + "\n");
 
         //factory
         System.out.println("Design Pattern Factory");
@@ -50,8 +51,12 @@ public class Main {
 
         //Singleton
         System.out.println("Design Pattern Singleton");
-        TransactionLogger transactionLogger = STransactionLogger.getInstance();
-//        transactionLogger.afficherJournal(commande1);
-        System.out.println("Journal des transactions: " + STransactionLogger.getInstance().getTransaction());
+        STransactionLogger transactionLogger = STransactionLogger.getInstance();
+        transactionLogger.ajoutJournal(commande1);
+        transactionLogger.ajoutJournal(commande2);
+
+        System.out.println("Journal des transactions : [");
+        transactionLogger.afficherJournal();
+        System.out.println("]");
     }
 }

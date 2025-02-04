@@ -57,11 +57,6 @@ public class Commande implements ISujet {
         notifyObservers();
     }
 
-    public void journal(String transaction){
-        STransactionLogger.getInstance().afficherJournal(transaction);
-        System.out.println("Journal des transaction : " + toString());
-    }
-
     @Override
     public String toString() {
         return "Commande" + "\n" +
@@ -69,7 +64,7 @@ public class Commande implements ISujet {
                 "produits         : " + produits + '\n' +
                 "prixTotal        : " + prixTotal + "\n" +
                 "status           : " + status + "\n" +
-                "type de paiement : " + type;
+                "type de paiement : " + type + "\n";
     }
 
     // ConcreteBuilder
